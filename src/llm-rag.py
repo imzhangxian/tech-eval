@@ -23,19 +23,9 @@ llm = HuggingFaceEndpoint(
     repo_id=repo_id, max_length=1024, temperature=0.1
 )
 
-# Load a document
-loader = WebBaseLoader("https://jujutsu-kaisen.fandom.com/wiki/Satoru_Gojo")
-data = loader.load()
-
-# split it into chunks
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-docs = text_splitter.split_documents(data)
-
-# create the open-source embedding function
+# initialize a Chroma db from persistence folder
 embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
-
-# load it into Chroma
-db = Chroma.from_documents(docs, embedding_function)
+db = Chroma("ipo_documents", embedding_function=embedding_function, persist_directory=persist_folder)
 
 # Create a conversation buffer memory
 memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
