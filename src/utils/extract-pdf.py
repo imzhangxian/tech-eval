@@ -2,8 +2,8 @@ from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 
-test_folder = "/Users/zhangxian/Workspace/tech-eval/data/load-test/"
-db_persist = "/Users/zhangxian/Workspace/tech-eval/storage/test/"
+test_folder = "/home/xian/Workspace/tech-eval/data/load-test/"
+db_persist = "/home/xian/Workspace/tech-eval/storage/test/"
 
 loader = PyPDFDirectoryLoader(test_folder)
 data = loader.load()
