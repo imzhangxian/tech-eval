@@ -2,10 +2,11 @@ import re
 import csv
 
 # url as https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2024-07-26/603391_20240726_EZF5.pdf
-rename_regex = re.compile(r"(?P<code>\d{6})(.SH)?[_|-]?(?P<name>[\u4e00-\u9fff]+)-?[\u4e00-\u9fff]*[\uff1a\s_]?[\u4e00-\u9fff\(\)]*-?(?P<date>\d{4}-?\d{2}-?\d{2})?.pdf\Z", flags=re.I)
+list_re = re.compile(r"(?P<code>\d{6})[_|-](?P<date>\d{8})[_|-][a-zA-Z0-9]*.pdf\Z", flags=re.I)
 
 work_dir = "./data/links" # sys.argv[1]
-all_links = []
+ashare_links = []
+star_links = []
 
 with open(f'{work_dir}/ipo-docs.csv', newline='') as csvfile:
     fieldnames = ['url', 'name']
@@ -13,9 +14,20 @@ with open(f'{work_dir}/ipo-docs.csv', newline='') as csvfile:
     for row in reader:
         url = row['url']
         name  = row['name']
+        filename = url.split('/')[-1]
+        match = list_re.match(filename)
+        code = match.group('code')
+        date = match.group('date')
         link_addr = f'<a href=\'{url}\'>{name}</a>'
-        all_links.append(link_addr)
+        if code.startswith('60'):
+            ashare_links.append(link_addr)
+        elif code.startswith('68'):
+            star_links.append(link_addr)
 
-with open(f'{work_dir}/ipo-docs.html', 'w') as html_file:
-    for link_addr in all_links:
+with open(f'{work_dir}/ipo-docs-ashare.html', 'w') as html_file:
+    for link_addr in ashare_links:
+        html_file.write(link_addr)
+
+with open(f'{work_dir}/ipo-docs-star.html', 'w') as html_file:
+    for link_addr in star_links:
         html_file.write(link_addr)
