@@ -33,20 +33,20 @@ with open(f'{work_dir}/ipo-docs.csv', newline='') as csvfile:
             pass
 
 with open(f'{work_dir}/ipo-docs-ashare.html', 'w') as html_file:
-    html_file.write('<html><body><ul>\n')
+    html_file.write('<html><body><ol>\n')
     for link_addr in ashare_links:
         html_file.write(f'<li>{link_addr}</li>\n')
-    html_file.write('</ul></body></html>')
+    html_file.write('</ol></body></html>')
 
 with open(f'{work_dir}/ipo-docs-ashare-urls.txt', 'w') as txt_file:
     for url in ashare_urls:
         txt_file.write(f'{url}\n')
 
 with open(f'{work_dir}/ipo-docs-star.html', 'w') as html_file:
-    html_file.write('<html><body><ul>\n')
+    html_file.write('<html><body><ol>\n')
     for link_addr in star_links:
         html_file.write(f'<li>{link_addr}</li>\n')
-    html_file.write('</ul></body></html>')
+    html_file.write('</ol></body></html>')
 
 with open(f'{work_dir}/ipo-docs-star-urls.txt', 'w') as txt_file:
     for url in star_urls:
