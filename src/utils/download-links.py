@@ -1,11 +1,23 @@
-import urllib3 as ul
+import time, sys
+from selenium import webdriver
 
-url = "https://rail.eecs.berkeley.edu/deeprlcourse/deeprlcourse/static/slides/lec-1.pdf"
+# url = 'http://www.google.com/' 
+# urls = ['https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2024-07-26/603391_20240726_EZF5.pdf',
+#         'https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2024-07-02/603285_20240702_BGFM.pdf',
+#         'https://static.sse.com.cn/disclosure/listedinfo/announcement/c/new/2024-06-28/603350_20240628_YQIS.pdf']
+url_txt_file = sys.argv[1]
+urls = []
 
-resp = ul.request('GET', url, preload_content=False, headers={'User-Agent': 'Customer User Agent If Needed'})
+with open(f'{url_txt_file}', 'r') as urls_file:
+    urls = urls_file.readlines()
 
-with open('lec-1.pdf', 'wb') as f:
-    for chunk in resp.stream(65536):
-        f.write(chunk)
+options = webdriver.ChromeOptions()
+# options.enable_downloads = True
+options.add_argument("headless")
 
-resp.release_conn()
+driver = webdriver.Chrome(options=options)  # Optional argument, if not specified will search path.
+for url in urls:
+    driver.get(url)
+    time.sleep(2) # Let the user actually see something!
+
+driver.quit()
